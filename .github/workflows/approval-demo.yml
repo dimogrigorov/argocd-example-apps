@@ -1,0 +1,48 @@
+name: Approval Demo
+
+on:
+  pull_request:
+    branches:
+      - master
+
+  push:
+    branches:
+      - master
+
+jobs:
+  plan:
+    name: Dummy Plan
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Simulate validation
+        run: echo "Validation passed"
+
+      - name: Simulate plan
+        run: |
+          echo "Plan:"
+          echo "+ create fake-resource-a"
+          echo "~ update fake-resource-b"
+          echo "- delete fake-resource-c"
+
+  apply:
+    name: Dummy Apply
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Simulate apply
+        run: |
+          echo "Deployment approved"
+          echo "Applying fake changes..."
+          echo "Done"
